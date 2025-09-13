@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome Page</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url('https://i.pinimg.com/originals/3u/im/rb/fw/3uimrbfWy.jpg');
+      background-size: cover;
+      background-position: center;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+    .welcome-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0,0,0,0.7);
+      padding: 40px;
+      border-radius: 15px;
+      text-align: center;
+    }
+    input, button {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 5px;
+      border: none;
+    }
+    button {
+      cursor: pointer;
+      background-color: #333;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="welcome-box">
+    <h1>Welcome!</h1>
+    <p>Enter your nickname and feedback:</p>
+    <form action="https://formspree.io/f/mblababg" method="POST">
+      <input type="text" name="nickname" placeholder="Your Nickname" required><br>
+      <input type="text" name="feedback" placeholder="Your Feedback" required><br>
+      <button type="submit">Send</button>
+    </form>
+  </div>
+</body>
+</html>
+<script>
+  const form = document.querySelector('form');
+  form.addEventListener('submit', function(e) {
+    e.preventDefault(); // prevent default submission for redirect effect
+
+    // show Goodbye message
+    const box = document.querySelector('.welcome-box');
+    box.innerHTML = '<h1>Goodbye :D</h1><p>Thanks for your feedback!</p>';
+    
+    // after 2 seconds, optionally clear the box or add something else
+    setTimeout(() => {
+      box.innerHTML += '<p>Hope you enjoyed visiting! ♬</p>';
+    }, 2000);
+
+    // actually send form data to Formspree
+    fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    }).then(response => {
+      console.log('Feedback sent:', response);
+    }).catch(error => console.error('Error:', error));
+  });
+</script>
